@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Tailwind CSS -->
+    <link href="{{url_for('static',filename='css/main.css')}}" rel="stylesheet">
+
+    <title>Flask Backend</title>
+</head>
+
+<body class="bg-zinc-100 font-sans">
+    <div class="flex flex-row justify-center space-x-10 m-32">
+        <div class="border border-solid border-slate-400 rounded-md p-4 space-y-4">
+            <span class="text-lg border-b-2 border-slate-300">List of Accounts</span>
+            <ul>
+                {% for acc in account %}
+                <li class="gap-y-2">{{ acc.name }} - {{ acc.username }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="border border-solid border-slate-400 rounded-md p-4 space-y-4">
+            <span class="text-lg border-b-2 border-slate-300">List of Recipes</span>
+            <ul>
+                {% for rec in recipe %}
+                <li class="flex flex-col gap-y-2">
+                    <span class="font-semibold">{{ rec.name }}</span>
+                    <span>Category: {{ rec.category }}</span>
+                    <span>Cuisine: {{ rec.cuisine }}</span>
+                    <span>Description: {{ rec.description }}</span>
+                    <span class="mb-6">Ingredients: {{ rec.ingredients }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</body>
+
+</html>
