@@ -1,6 +1,6 @@
-from flask import Flask, render_template, request
+from flask import Flask, jsonify, make_response, render_template, request
+from flask_restful import Api, Resource
 from flask_sqlalchemy import SQLAlchemy
-from flask_restful import Resource, Api
 
 app = Flask(__name__, template_folder="templates")
 
@@ -163,6 +163,24 @@ def index():
     account = Accounts.query.all()
     recipe = Recipes.query.all()
     return render_template("index.html", account=account, recipe=recipe)
+
+
+@app.route("/auth/login", methods=["POST"])
+def login():
+    data = request.get_json()
+    username = data.get("username")
+    password = data.get("password")
+
+    if not username:
+        return make_response("Username is required", 400)
+    if not password:
+        return make_response("Password is required", 400)
+
+    result = Accounts.query.filter_by(username=username, password=password).all()
+
+    if result:
+        return make_response(jsonify({"id": result[0].id, "username": username}), 200)
+    return make_response("User does not exist", 400)
 
 
 if __name__ == "__main__":
